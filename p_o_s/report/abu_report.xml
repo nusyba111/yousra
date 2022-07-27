@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+         <report id="report_abu_elfadil_report"
+            string="Shifts Cash"
+            model="pos.session"
+            report_type="qweb-pdf"
+            name="p_o_s.plaza_reports"
+            file="p_o_s.plaza_reports"/>
+
+    <template id="plaza_reports">
+     
+         <t t-call="web.html_container">
+             <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="oe_structure">
+                        <div class="article mt0 o_report_layout_standard" dir="ltr"> 
+                        <h2 style='text-align:center;'> <span t-esc="o.name"/>ورقة إستلام ورديات معرض </h2>
+                        <h5 style='text-align:center;'> وردية يوم:  <span t-esc="o.stop_at"/></h5>
+                                <table class="table table-condensed table-bordered">
+                                    <thead>
+                                    <th class="text-right" style="width: 20%;">القيمة</th>
+                                      <th class="text-right" style="width: 20%;">العدد</th>
+                                      
+                                      <th class="text-right" style="width: 10%;">الفئة</th>
+                                      <th class="text-right" style="width: 10%;">الرقم</th>
+                                     <!--  <th class="text-right" style="width: 20%;">الإجمالي</th> -->
+                                        </thead>
+
+                                </table>
+                                <br></br>
+                                <table>
+                                          <th class="text-right" style="width: 20%;">ATM:...........................................................................</th>
+
+                                          <th class="text-right" style="width: 20%;">............................................................................................................................:بنكك</th>
+
+                                </table>
+
+                                <table class="table table-condensed table-bordered">
+                                    <thead>
+                                      <th class="text-right"><span t-esc="o.comment"/></th>
+                                      <th class="text-right" style="width: 20%;">التعليق</th>
+                                      
+                                    </thead>
+                                    <!-- <tbody>
+                                        <t t-foreach="docs" t-as="doc">
+                                            <td class="text-right"><span t-esc="doc.comment"/></td>
+                                        </t>
+                                    </tbody> -->
+                                </table>
+                               
+                                <table class="table table-condensed table-bordered">
+                                    <thead>
+                                        <th class="text-right"><span t-esc="o.note"/></th>
+                                      <th class="text-right" style="width: 20%;">الملاحظة</th>
+                                      
+                                      
+                                    </thead>
+                                </table>
+                               
+                                <table class="table table-condensed table-bordered">
+                                        <thead>
+                                          <th class="text-right"><span t-esc="o.stop_at"/></th>
+                                          <th class="text-right" style="width: 20%;">إنتهاء</th>
+                                          <th class="text-right"><span t-esc="o.start_at"/></th>
+                                         
+                                          <th class="text-right" style="width: 20%;">زمن حساب الوردية في مكتب الحسابات/بدأ/الساعة</th>
+                                          
+                                          
+                                        </thead>
+                                </table>
+                               
+
+                                <table class="table table-condensed table-right">
+                                    
+                                      <th class="text-right"><span t-esc="o.signature"/></th>
+                                      <th class="text-right" style="width: 20%;">التوقيع</th>
+                                      <th class="text-right"><span t-esc="o.account_emp.name"/></th>
+                                     
+                                      <th class="text-right" style="width: 20%;">المحاسب/أمين الخزينة</th>
+                                                                            
+                                </table>
+                            
+                                <table class="table table-condensed table-right">
+                                      
+                                          
+                                          <th class="text-right"><span t-esc="o.signature"/></th>
+                                          <th class="text-right" style="width: 20%;">التوقيع</th>
+                                          <th class="text-right"><span t-esc="o.safety_emp.name"/></th>
+
+                                          <th class="text-right" style="width: 20%;">موظف الأمن</th>
+                                          
+                                        
+
+                                </table>
+                            
+                                <table class="table table-condensed table-right">
+                                        
+                                          
+                                          <th class="text-right"><span t-esc="o.signature"/></th>
+                                          <th class="text-right">التوقيع</th>
+
+                                          
+                                          <th class="text-right"><span t-esc="o.user_id.name"/></th>
+                                          <th class="text-right" style="width: 20%;">موظف/ة الكاشير</th>
+
+                                </table>
+                                
+                                
+                                
+
+                               
+                                    <!-- <tr class="is-subtotal text-right">
+                                        <td colspan="99" id="user_id" style="border-bottom:solid black 1px; background-color:#d1dfe6;">
+                                            <div style="text-align:left">
+                                                <span t-esc="start_date"/>
+                                            </div>
+                                            <strong class="mr16">تست</strong>
+                                        </td>
+                                    </tr> -->
+                                 
+
+
+                    </div>
+                </div>
+                </div>
+                </t>
+            </t>
+        </template>
+    </odoo>
+    

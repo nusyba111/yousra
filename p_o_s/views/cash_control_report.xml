@@ -1,0 +1,128 @@
+<odoo>
+    <data>
+        <template id="cash_control_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    
+                        <div class="page">
+                            <t t-foreach="docs" t-as="doc">
+                                
+                                <t t-foreach="doc.cashbox_lines_ids" t-as="line">
+                                <p style="text-align: center; font-family:'NissanAG-Bold';font-size: 20px;">
+                                     <span t-field="line.coin_value"/>
+                                </p>
+                               <!--  <table style="border: 2px solid black;" width="100%">
+                                 <thead style="border: 1px solid black; border-top: 1;background-color:#808080;">
+                                    <tr style="border: 2px solid black;">
+                                        <th style="border: 1px solid black; border-top: 0;text-align: center;" rowspan="2">
+                                           Date
+                                        </th>
+                                        <th style="border: 1px solid black; text-align: center;" rowspan="2">Receipt NO.</th>
+                                        <th style="border: 1px solid black; text-align: center;" rowspan="2"> Number Of Liters
+                                        </th>
+                                        <th style="border: 1px solid black; text-align: center;" rowspan="2"> Odometer
+                                        </th>
+                                        <th style="border: 1px solid black; text-align: center;" rowspan="2"> Amount
+                                        </th>
+                                        <th style="border: 1px solid black; text-align: center;" rowspan="2">Distance</th>
+                                        <th style="border: 1px solid black; text-align: center;" rowspan="2">Days</th>
+                                        
+                                    </tr>
+                                
+                                    </thead>
+                                    
+                                    <tbody class="sale_tbody">
+                                        
+                                        <t t-foreach="doc.dispensing_ids" t-as="line">
+                                        <tr style="border: 1px solid black; border-bottom-style: double;">
+                                            <td style="border: 2px  black; border-bottom-style: double;">
+                                                <span t-field="line.delivery_date"/> 
+                                            </td>
+                                            <td style="border: 2px solid black; border-bottom-style: double;">
+                                                <span t-field="line.receipt_number"/>
+                                            </td>
+                                            <td style="border: 2px solid black; border-top: 0;border-bottom-style: double;">
+                                                <span t-field="line.number_of_liters"/>
+                                            </td>
+                                            
+                                            <td style="border: 2px solid black; border-top: 0;border-style: double;">
+                                                <span t-field="line.odometer"/>
+                                            </td>
+                                            
+                                            <td style="border: 2px solid black; border-top: 0;border-style: double;">
+                                                <span t-field="line.amount"/>
+                                            </td>
+
+                                            <td style="border: 2px solid black; border-top: 0;border-style: double;">
+                                                <span t-field="line.distance"/>
+                                            </td>
+                                            
+                                            <td style="border: 2px solid black; border-top: 0;border-style: double;">
+                                                <span t-field="line.days"/>
+                                            </td>
+                                        </tr>
+                                        </t>
+
+                                        <tr style="border: 1px solid black; border-bottom-style: double; background-color:#ddd;">
+                                            <td style="border: 2px  black; border-bottom-style: double;">
+                                                Total
+                                            </td>
+                                            <td style="border: 2px solid black; border-bottom-style: double;">
+                                                &#160;
+                                            </td>
+                                            <td style="border: 2px solid black; border-top: 0;border-bottom-style: double;">
+                                                <span t-esc="sum(line.number_of_liters for line in doc.dispensing_ids)"/>
+                                            </td>
+                                            
+                                            <td style="border: 2px solid black; border-top: 0;border-style: double;">
+                                                &#160;
+                                            </td>
+                                            
+                                            <td style="border: 2px solid black; border-top: 0;border-style: double;">
+                                                 <span t-esc="sum(line.amount for line in doc.dispensing_ids)"/>
+                                            </td>
+
+                                            <td style="border: 2px solid black; border-top: 0;border-style: double;">
+                                                <span t-esc="sum(line.distance for line in doc.dispensing_ids)"/>
+                                            
+                                            </td>
+                                            <td style="border: 2px solid black; border-top: 0;border-style: double;">
+                                                 <span t-esc="sum(line.days for line in doc.dispensing_ids)"/>
+                                    
+                                            </td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                    
+                                </table> -->
+                                <!-- <br/> -->
+                                <!-- </t> -->
+
+                                <!-- <tbody>
+                                        <t t-foreach="docs" t-as="doc">
+                                                    <td class="text-right"><span t-esc="doc.number"/></td>
+                                                    <td class="text-center"><span t-esc="doc.safety_emp.name"/></td>
+                                                    <td class="text-center"><span t-esc="doc.coin_value"/></td>
+                                                    <td class="text-center"><span t-esc="doc.subtotal"/></td>
+                                        </t>
+                                    </tbody> -->
+                            </t>
+                            </t>
+                        </div>   
+                      
+                </t>
+            </t>
+        </template>
+      
+        <report
+            id="cash_control_report"
+            model="pos.session"
+            report_type="qweb-pdf"
+            string="Cash Control Report"
+            name="p_o_s.cash_control_template"
+            file="Cash Control Report"
+            
+        />
+        <!-- menu="False" -->
+    </data>
+</odoo>

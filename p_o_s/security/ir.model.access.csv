@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pos_session,pos_session.pos_session,model_pos_session,,1,1,1,1
+access_account_bank_statement_cashbox,account_bank_statement_cashbox.account_bank_statement_cashbox,model_account_bank_statement_cashbox,,1,1,1,1
+access_account_cashbox_line,account.cashbox.line,model_account_cashbox_line,,1,1,1,1
