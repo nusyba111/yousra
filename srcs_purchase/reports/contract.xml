@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    style="color:green;"-->
+    <record id="action_report_contract_template" model="ir.actions.report">
+        <field name="name">Contract</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">srcs_purchase.contract_template</field>
+        <field name="report_file">srcs_purchase.contract_template</field>
+        <!-- <field name="print_report_name">'%s' % object.name</field> -->
+        <field name="binding_model_id" ref="model_purchase_order"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="contract_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                     <p class="text-center" >This Contract is between</p>
+                     <p class="text-center" >The General Secretariat of the <t t-esc="o.company_id.name"/></p>
+                     <p class="text-center" >Represented by</p>
+                     <p class="text-center" >Secretary General</p>
+                     <p class="text-center" >Here in after referred to as "the Society"</p>
+                     <p class="text-center" >And</p>
+                     <p class="text-center" ><t t-esc="o.partner_id.name"/></p>
+                     <p class="text-center" >Represented by:<br/><t t-esc="o.partner_ref"/></p>
+                    <p class="text-center" >(General Manager)</p>
+                    <p class="text-center" >Here in after referred to as"the supplier"</p>
+                    <strong class="text-left" >A. Scope of work:</strong>
+                    <p class="text-left" >For the humanitarian aid to enhance well-being dignity and protection for south sudanese refugees in White Nile state,this process of procurement of Hygiene Kit was implemented by <t t-esc="o.company_id.name"/> funded dy Spanish Red cross"the supplier"shall provide and deliver the following:<t t-esc="o.company_id.name"/>warehouse Khartoum North</p>
+                    <br/>
+                    <table>
+                         <t t-foreach="o.order_line" t-as="line">
+                             <tr>
+                                 <td class="text-center"><strong>.</strong><font color="#FFFFFF">B</font><span t-esc="line['product_id'].name"/></td>
+                                 <td class="text-center"><font color="#FFFFFF">Bbbbbbbbbb</font><span t-esc="line['product_qty']"/></td>
+                                <td class="text-center"><span t-esc="line['product_uom'].name"/></td>
+                             </tr>
+                         </t>
+                    </table>
+                 <p class="text-left" >As per your offer date<t t-esc="o.date_order"/>(annex)and samples<br/>where annex(1)is read as a part of this contract to the destination: </p>
+                <strong class="text-left" >B. Contract Account:</strong>
+                <p class="text-left" >The total Value of the Contract is=<t t-esc="o.tax_totals_json"/><t t-esc="o.currency_id.name"/> in words(..................)including tax,transportation to the warehouse,loading off loading etc...</p>
+                 <strong class="text-left" >C. Contract Conditions:</strong>
+                 <p class="text-left" >Specifications of the items are according to the international/national standard</p>
+                 <p class="text-left" >"The Supplier"guarantees a continuous accessibility during normal office hours and in emergencies over the following telephone Number(s)............
+                     it is the sole responsibility of "the supplier"to undertake,obtain and issue all relevant documents required by the authorities ,including Zakat, Tax, Road fees etc.... moreover,if required by the society a certificate proves that the items to be delivered are complying with the international/national standard and specification of <t t-esc="o.company_id.name"/>,and fit for human use <br/>it is the sole responsibility of "the supplier"to under take the sorting,packing,labeling and off loading of the items at the delivery to the "the Society"warehouse.</p>
+                   <strong class="text-left" >D. Payment:</strong>
+                   <p class="text-left" >"The Society" shall pay 100% of the total contract value after complete delivery of the all items requested. The good received note signed by "the Society"and "the supplier"and "the Supplier's" commercial final invoice are essential for the payment .</p>
+                <strong class="text-left" >E. Insurance:</strong>
+                    <p class="text-left" >it is the sole responsibility of "the Supplier"to ensure that all insurance coverage are made and subsequently undertake all cost involved,till the items amounts safely delivered to its warehouse in kosti-white Nile state, where by "the society has to receive all the amount complete in numbers, in weight and measure,sorted,cleaned,undamaged,well packed,labeled,or and "the society"has the right to deduct cost of any damaged items from the final settlement as per the contract price,unless it was replaceed in kind by"the supplier"</p>
+                   <strong class="text-left" >F. Terms of Delivery:</strong>
+                   <p class="text-left" >"The Supplier" has to deliver the items requested to the <t t-esc="o.company_id.name"/>
+                   warehouse white Nile branch within maximum 7days(seven)working days from the date of signing this contract if "the supplier is not able to deliver the ordered items in time,"the society" is be entitled to reduce 1% of the respective items for each day of delay</p>
+                <strong class="text-left" >G. Coming into Force:</strong>
+                <p class="text-left" >By signing this agreement both parties agree to be bound by the terms and conditions stated here in as guided by the contractual laws of sudan</p>
+                <strong class="text-left" >H.Termination of Contract:</strong>
+                <p class="text-left" >"the Society"is allowed to terminate the contract or require replacement of "the supplier"if it is evident that the completion of delivery of the requested items will be delayed by more than 10daysbeyond the agrees contract</p>
+                  <strong class="text-left" >1. Disputes:</strong>
+                  <p class="text-left" >Any disputes arising under this agreement shall be solved amicably through negotiations between the contract parties.if proved not resolvable it shall be referred to arbitration of the Attorney General</p>
+                 <p class="text-center" >This agreement was signed the two parties  on<t t-esc="o.date_order"/> </p>
+                <table>
+<!--                         <t t-foreach="o.order_line" t-as="line">-->
+                             <tr>
+                                 <td class="text-center"><strong>For The First Party</strong></td>
+                                 <td class="text-center"><strong>For "The Supplier"</strong></td>
+                                 </tr><tr>
+                                 <td class="text-center"><t t-esc="o.company_id.name"/></td>
+                                <td class="text-center"><t t-esc="o.partner_id.name"/></td>
+                    </tr><tr>
+                                <td class="text-center"><span> </span></td>
+                                <td class="text-center"><span> </span></td>
+                </tr><tr>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                </tr><tr>
+                             <td class="text-center"><span> Acting/Secretary General</span></td>
+                                <td class="text-center"><span> General Manager</span></td>
+
+                             </tr>
+<!--                         </t>-->
+                    </table>
+                         <p class="text-center" >Annex(01)the supplier offer</p>
+                     <p class="text-center" >list of requested hygiene Kits</p>
+                   </t>
+
+            </t>
+        </t>
+    </template>
+</odoo>

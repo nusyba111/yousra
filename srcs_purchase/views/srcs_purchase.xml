@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inherit_view_id_srcs_purchase_order" model="ir.ui.view">
+        <field name="name">purchase.order.view.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="replace">
+                <header>
+                    <button name="action_rfq_send" states="draft" string="Send by Email" type="object" class="oe_highlight" data-hotkey="g"/>
+                    <button name="print_quotation" string="Print RFQ" type="object" states="draft" class="oe_highlight" data-hotkey="k" />
+                    <button name="button_draft" states="cancel" string="Set to Draft" type="object" data-hotkey="o"/>
+                    <button name="button_cancel" states="draft,pro_officer,pro_head,purchase,grn" string="Cancel" type="object" data-hotkey="x" />
+                    <button name="button_done" type="object" string="Lock" states="purchase" data-hotkey="l"/>
+                    <button name="button_unlock" type="object" string="Unlock" states="done" groups="purchase.group_purchase_manager" data-hotkey="l"/>
+                    <!-- <button name="action_view_picking" 
+                    string="Receive Products" class="oe_highlight" type="object" 
+                    attrs="{'invisible': ['|', '|' , ('is_shipped', '=', True), ('state','not in', ('purchase','done')), ('incoming_picking_count', '=', 0)]}" 
+                    data-hotkey="y" groups="stock.group_stock_user"/> -->
+                    <button string="procurement Officer" name="procurement_offcer" type="object" class="oe_highlight" states='draft,sent'/>
+                    <button string="procurement Head" name="procurement_head" type="object" class="oe_highlight" states='pro_officer'/>
+                    <button string="Department Manager" name="department_manager" type="object" class="oe_highlight" states='pro_head'/>
+                    <button string="SG approval" name="secratry_general" type="object" class="oe_highlight" states='re_dep_manager'/>
+                    <button string="Approved" name="action_quotaion_approve" type="object" class="oe_highlight" states='secratry_general'/>
+                    <button string="Committee Minutes" name="committee" type="object" class="oe_highlight" states='tender_procedure'/>
+                    <button string="CBA" name="compatitive_bid_analysis" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','committee_minute'),('is_cba','!=',True)]}"/>
+                    <button name="button_confirm" type="object" string="Confirm Order" id="draft_confirm" attrs="{'invisible':[('state','!=','cba'),'|',('state','!=','committee_minute'),('tender_type','!=','rest_tender')]}"/>
+                    <button string="GRN" name="goods_receive_note" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','purchase'),('tender_type','not in',['rest_tender','publish_tender'])]}"/>
+                    <button string="Payment" name="payment" type="object" class="oe_highlight" attrs="{'invisible':[('state','!=','grn'),'|',('state','!=','purchase'),('tender_type','!=','single_tender')]}"/>
+                    <button string="receiving goods/service" name="receive_goods" type="object" class="oe_highlight" states="payment"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pro_officer,pro_head,re_dep_manager,secratry_general" />
+                </header>
+            </xpath>
+            <xpath expr="//group" position="after">
+                <group>
+                    <group>
+                        <!-- <field name="is_purchase_request" invisible="1"/> -->
+
+                        <field name="date_of_receipt" force_save="1"/>
+                        <field name="purchase_request_id" force_save="1"/>
+                        <field name="arrival_date" />
+                        <field name="mean_transport" />
+                        <field name="bill_leading" />  
+                    </group>
+                    <group>
+                        <field name="tender_type" />
+                        <field name="vessel" />
+                        <field name="flight_number" />
+                        <field name="truck_number" />
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//page//field[@name='fiscal_position_id']" position="after">
+                <field name="is_committee" attrs="{'invisible':[('tender_type','=','single_tender')]}"/>
+                <field name="is_cba" attrs="{'invisible':[('tender_type','=','single_tender')]}"/>
+                <field name="one_quotaion" attrs="{'invisible':[('tender_type','!=','rest_tender')]}"/>
+                <!-- <field name="is_single_source" attrs="{'invisible':[(')]}" /> -->
+            </xpath>
+            <xpath expr="//div[@name='date_planned_div']" position="after">
+                <field name="service" />
+            </xpath>
+            <xpath expr="//page[@name='purchase_delivery_invoice']" position="before">
+                <page string="Minutes of Committee Requirements" attrs="{'invisible':[('is_committee','=',False)]}">
+                    <group col="4">
+                        <field name="cv" />
+                        <field name="regestration_certificate" />
+                        <field name="tax_regs_no" />
+                        <field name="expereince" />
+                        <field name="insurance" />
+                        <field name="finanical_offer" widget="account-tax-totals-field"/>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//page[3]" position="after">
+                <page string="Donor Info">
+                    <group col="4">
+                        <field name="gift_certificate" />
+                        <field name="way_bill" />
+                        <field name="packing_list" />
+                        <field name="proforma_invoice" />
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="after">
+                <field name="vendor_desc" />
+            </xpath>
+        </field>
+    </record>
+    <record id="inherit_view_id_inherit_purchase_order_requisition" model="ir.ui.view">
+        <field name="name">purchase.order.request.view.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase_requisition.purchase_order_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='requisition_id']" position="attributes">
+                <attribute name="attrs">{'invisible':[('tender_type','=','single_tender')]}</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@name='request_date']" position="after">-->
+<!--                <field name="date_of_receipt"/>-->
+<!--            </xpath>-->
+        </field>
+    </record>
+    <record id="inherit_view_id_purchase_requisition" model="ir.ui.view">
+        <field name="name">purchase.requisition.view.form.inherit</field>
+        <field name="model">purchase.requisition</field>
+        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type_id']" position="after">
+                <field name="purchase_request_id" />
+<!--                <field name="mean_transport" />-->
+            </xpath>
+            <xpath expr="//page[@name='products']" position="after">
+                <page string="Committee Members" attrs="{'invisible':[('is_committee','=',False)]}">
+                    <!-- <group>
+                        <group> -->
+
+                            <field name="committee_ids" widget="one2many_tags" >
+                                
+                                <tree editable="bottom">
+                                    <field name="employee_id" />
+                                    <field name="job_id" />
+                                    <field name="company_id" invisible="1"/>
+                                </tree>
+                                    
+                            </field>
+                        <!-- </group>
+                    </group> -->
+                </page>
+            </xpath>
+            <xpath expr="//page[last()]" position="after">
+                <page string="Tender Info">
+                    <group col="4">
+                        <field name="is_cba" />
+                        <field name="is_committee" />
+                        <field name="is_restricted" />
+                        <field name="is_published" />
+                        <field name="is_service" />
+                        <field name="one_quotaion" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+ 
+    <record id="purchase.purchase_form_action" model="ir.actions.act_window">
+        <field name="name">Purchase Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
+        <field name="view_id" ref="purchase.purchase_order_view_tree"/>
+        <field name="domain">[('state','in',('purchase', 'done')),('service','=',False)]</field>
+        <field name="search_view_id" ref="purchase.purchase_order_view_search"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            No purchase order found. Let's create one!
+            </p><p>
+            Once you ordered your products to your supplier, confirm your request for quotation and it will turn into a purchase order.
+            </p>
+        </field>
+    </record>
+    <record id="service_order_action" model="ir.actions.act_window">
+        <field name="name">Service Purchase Order</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','in',('purchase', 'done')),('service','=',True)]</field>
+        <field name="context">{'default_service':True}</field>
+    </record>
+    <menuitem 
+        id="purchase.menu_procurement_management" 
+        name="Orders"
+        parent="purchase.menu_purchase_root" 
+        sequence="2" />
+    <menuitem
+        id="requestion_menu"
+        name="Requisitions"
+        parent="purchase.menu_purchase_root"
+        sequence="1"/>
+    <menuitem
+        id="service_purchase_menu"
+        name="Service Purchase Order"
+        action="service_order_action"
+        parent="purchase.menu_procurement_management"
+        sequence="7"
+        />
+    <menuitem 
+        action="purchase.purchase_rfq" 
+        id="purchase.menu_purchase_rfq"
+        parent="requestion_menu"
+        sequence="2"/>
+
+        <record id="inherit_view_id_inherit_res_partner" model="ir.ui.view">
+        <field name="name">res.partner.view.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="after">
+                 <field name="fax"/>
+            </xpath>
+        </field>
+    </record>
+        <record id="inherit_view_id_inherit_res_company" model="ir.ui.view">
+        <field name="name">res.company.view.form.inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="after">
+                 <field name="fax"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

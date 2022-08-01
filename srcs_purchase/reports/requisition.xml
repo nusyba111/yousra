@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    style="background-color:#33475b" -->
+    <record id="srcs_purchase_requisition_report" model="ir.actions.report">
+        <field name="name">Requisition </field>
+        <field name="model">purchase.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">srcs_purchase.requisition_template</field>
+        <field name="report_file">srcs_purchase.requisition_template</field>
+        <!-- <field name="print_report_name">'%s' % object.name</field> -->
+        <field name="binding_model_id" ref="model_purchase_request"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="requisition_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div>
+                    <div dir="ltr"><p class="text-center;font-size:45px"> REQUISITION <br/>        FOR QUOTATION FOR PURCHASE OTHER WH dispatch, ect</p></div>
+                    <div dir="rtl">
+                    <table class="table table-condensed table-bordered" border="2" dir="ltr" style="width:30%;">
+                    <thead>
+                         <th style="background-color:#33475b" >Country Code</th>
+                         <th style="background-color:#33475b" class="text-left;font-size:45px">Number</th>
+                    </thead>
+                         <tbody>
+                          <td class="text-center"><span t-esc="o['company_id'].country_id.code"/></td>
+                          <td class="text-center"></td>
+                         </tbody>
+
+                    </table></div></div>
+                         <table class="table table-condensed table-bordered" border="2" dir="ltr">
+                    <thead>
+                            <th style="background-color:#33475b" class="text-left;font-size:45px">Delegation and Department الاسم, المشروع, البرنامج</th>
+                            <th style="background-color:#33475b" class="text-left;font-size:45px" colspan="3">Accounting Codes</th>
+                    </thead>
+                                 <tbody>
+<!--                              <t t-foreach="o.purchase_request_line_ids" t-as="line">-->
+                                     <tr>
+                                <td class="text-left" rowspan="4"><span t-esc="o['department_id'].name"/></td>
+                                <td class="text-left">Account</td>
+                                 <td class="text-left" ><span t-esc="o['account_id'].code"/></td>
+                                     </tr>
+                                     <tr>
+                                 <td class="text-left">Project</td>
+                                 <td class="text-left"><span t-esc="o['project_id'].name"/></td>
+                                         </tr>
+                                     <tr>
+                                  <td class="text-left">Activity</td>
+                                 <td class="text-left"><span t-esc="o['analytic_activity_id'].name"/></td>
+                                         </tr>
+                                     <tr>
+                                 <td class="text-left" >Donor</td>
+                                 <td class="text-left"><span t-esc="o['donor_id'].name"/></td>
+                                </tr>
+                                     <tr>
+                                          <td rowspan="4" class="text-left">Name and full delivery address اسم الطالب <br/>
+                                         <br/><br/> <span t-esc="o['requester_id'].name"/></td>
+                                       <td class="text-left">Budgeted:</td>
+                                         <td class="text-left"></td>
+                                     </tr>
+                                     <tr>
+                                            <td class="text-left">Budget Limit</td>
+                                          <td class="text-left"><span t-esc="o['budget_limit']"/></td>
+                                     </tr>
+                                     <tr>
+                                     <td class="text-left">Desired delivery date:</td>
+                                     <td class="text-left"><span t-esc="o['request_date']"/></td>
+                                         </tr>
+                                     <tr>
+                                     <td class="text-left">Transport me</td>
+                                     <td class="text-left"><span t-esc="o['mean_transport']"/></td>
+                                     </tr>
+<!--                </t>-->
+                    </tbody>
+                         </table>
+
+                       <t t-set="i" t-value="1" />
+                    <table class="table table-condensed table-bordered" border="2" dir="ltr">
+                    <thead style="background-color:#33475b">
+                            <th class="text-left;font-size:45px">No الرقم</th>
+                            <th class="text-left;font-size:45px">Item Code رقم الصنف </th>
+                            <th class="text-left;font-size:45px">Item description البيان</th>
+                            <th class="text-left;font-size:45px">Quantity الكمية </th>
+                            <th class="text-left;font-size:45px">Unit الوحدة </th>
+                            <th class="text-left;font-size:45px">Unit price سعر الوحده</th>
+                            <th class="text-left;font-size:45px">Total Price الجملة</th>
+                    </thead>
+                    <tbody>
+                              <t t-foreach="o.purchase_request_line_ids" t-as="line">
+                                     <tr>
+                                 <td><span t-esc="i"/><t t-set="i" t-value="i+1"/> </td>
+                                <td class="text-center"><span t-esc="line['product_id'].name"/></td>
+                                <td class="text-center"><span t-esc="line['description']"/></td>
+                                 <td class="text-center"><span t-esc="line['product_qty']"/></td>
+                                 <td class="text-center"><span t-esc="line['product_uom'].name"/></td>
+                                 <td class="text-center"><span t-esc="line['price_unit']"/></td>
+                                 <td class="text-center"><span t-esc="line['price_subtotal']"/></td>
+                                </tr> </t>
+                    </tbody>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

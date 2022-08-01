@@ -1,0 +1,174 @@
+<odoo>
+    <data>
+        <record id="purchase_request_tree" model="ir.ui.view">
+            <field name="name">purchase_request_tree</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase Request">
+                    <field name="sequence"/>
+                    <field name="requester_id"  options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True}"/>
+                    <field name="request_date"/>
+                    <field name="department_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True}"/>
+                    <field name="partner_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True}"/>
+                    <field name="state"/>
+                    <field name="request_reason"/>
+                </tree>
+            </field>
+        </record>
+        <record id="purchase_request_form" model="ir.ui.view">
+            <field name="name">purchase_request_form</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Request">
+                    <header>
+                        <button string="Program Coordinator" 
+                        name="action_program_cordinator" 
+                        
+                        type="object" class="oe_highlight" states="draft"/>
+
+                        <button string="Department Approval" 
+                        name="action_department" 
+                        
+                        type="object" class="oe_highlight" states="program_cordinator"/>
+
+                        <button string="Finance Confirmation" 
+                        name="action_finance" 
+                        
+                        type="object" class="oe_highlight" states="department"/>
+
+                        <button string="Secretary General" 
+                        name="action_secratry_general" 
+                       
+                        type="object" class="oe_highlight" states="finance"/>
+
+                        <button string="Procurement Officer Approval" 
+                        name="action_procument" 
+                        
+                        type="object" class="oe_highlight" states="secratry_general"/>
+
+                        <button string="Approve" 
+                        name="action_approve" 
+                        
+                        type="object" class="oe_highlight" states="procument"/>
+
+                        <button string="Inventory Confirmation" 
+                        name="action_inventory" 
+                        
+                        type="object" class="oe_highlight" states="supply_chain"/>
+
+                        <!-- <button string="End" 
+                        name="action_end" 
+                        type="object" class="oe_highlight" states="inventory"/> -->
+                        <button string="Reset To Draft" name="action_reset_to_draft" type="object" class="oe_highlight" attrs="{'invisible':[('state','=','draft')]}"/>
+                        
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,program_cordinator,department,finance,secratry_general"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="get_rfq_button_box">
+                            <button name="get_rfq"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-file-text-o"
+                                    attrs="{'invisible': [('count_rfq', '=', 0)]}">
+                                <field name="count_rfq" string="RFQ" widget="statinfo"/>
+                            </button>
+                            <button name="get_agreement"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-file-text-o"
+                                    attrs="{'invisible': [('count_agreement', '=', 0)]}">
+                                <field name="count_agreement" string="Agreement" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <h2>
+                            <field name="sequence"/>
+                        </h2>
+                        <group col="4">
+                            <field name="requester_id" readonly="1"/>
+                            <field name="request_date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="department_id"  readonly="1"/>
+                            <field name="currency_id" attrs="{'readonly': [('state', 'not in', ['finance','draft','program_cordinator'])]}"/>
+                            <field name="request_reason"/>
+                            <field name="is_single_source" attrs="{'readonly': [('state', 'not in', ['finance','draft','program_cordinator'])]}"/>
+                            <field name="partner_id" attrs="{'invisible': [('is_single_source', '!=', True)],'required':[('is_single_source','=',True)]}"/>
+                            <field name="service" />
+                            <field name="budget_currency" invisible="1" />
+                        </group>
+                        <group col="4" >
+                            <field name="account_id" attrs="{'readonly': [('state', 'not in', ['finance','draft','program_cordinator'])]}"/>
+                            <field name="project_id" attrs="{'readonly': [('state', 'not in', ['finance','draft','program_cordinator'])]}"/>
+                            <field name="analytic_activity_id" attrs="{'readonly': [('state', 'not in', ['finance','draft','program_cordinator'])]}"/>
+                            <field name="donor_id" domain="[('customer_rank','=', 1)]" attrs="{'readonly': [('state', 'not in', ['finance','draft','program_cordinator'])]}"/>
+                            <field name="budget_line_id" force_save="1"/>
+                            <field name="budget_limit" force_save="1"/>
+                            <field name="mean_transport" force_save="1"/>
+                            <field name="company_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Requisition Lines">
+                                <field name="purchase_request_line_ids"
+                                       attrs="{'readonly': [('state', 'not in', ['finance','draft','program_cordinator'])]}">
+                                    <tree editable="bottom">
+                                        <field name="product_id" />
+                                        <field name="description"/>
+                                        <field name="product_uom" groups="uom.group_uom"/>
+                                        <field name="product_qty"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="price_unit"/>
+                                        <field name="price_subtotal" force_save="1"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Approval Information">
+                                <group>
+                                    <group>
+                                        <field name="program_coordinator"/>
+                                        <field name="department_user"/>
+                                        <field name="finance_user"/>
+                                        <field name="secratry_general"/>
+                                        <field name="procument_user"/>
+                                        <field name="supply_chain_user"/>
+                                        <field name="inventory_user"/>
+                                        
+                                    </group>
+                                    <group>
+                                        <field name="program_coordinator_date"/>
+                                        <field name="department_date"/>
+                                        <field name="finance_date"/>
+                                        <field name="secratry_general_date"/>
+                                        <field name="procument_date"/>
+                                        <field name="supply_chain_date"/>
+                                        <field name="inventory_date"/>
+                                       
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                        <group class="oe_right">
+                            <field name="total" colspan="2"/>
+                        </group>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="purchase_request_action" model="ir.actions.act_window">
+            <field name="name">Purchase Requisition</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.request</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="purchase_request_menu" 
+                parent="srcs_purchase.requestion_menu"
+                action="purchase_request_action"
+                sequence="1"
+                />
+    </data>
+</odoo>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="financial_limit_view_form" model="ir.ui.view">
+        <field name="name">financial.limit.view.form</field>
+        <field name="model">financial.limit</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="tender_type" />
+                            <label for="amount_from" string="Amount Range"/>
+                            <div>
+                                <div class="o_row">
+                                    <span>From <field name="amount_from" class="oe_inline"/> </span>
+                                    <span>To <field name="amount_to" class="oe_inline" /> </span>
+                                </div>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="three_quotaions"/>
+                            <field name="cba" attrs="{'invisible':[('three_quotaions','!=',True)]}"/>
+                            <field name="munites_commitee" attrs="{'invisible':[('three_quotaions','!=',True)]}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="financial_limit_view_tree" model="ir.ui.view">
+        <field name="name">financial.limit.view.tree</field>
+        <field name="model">financial.limit</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" />
+                <field name="tender_type" />
+                <field name="amount_from" />
+                <field name="amount_to" />
+                <field name="three_quotaions" />
+                <field name="munites_commitee" />
+                <field name="cba" />
+                
+            </tree>
+        </field>
+    </record>
+    <record id="financial_limit_action" model="ir.actions.act_window">
+        <field name="name">Financial Limit</field>
+        <field name="res_model">financial.limit</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- <menuitem
+        id="parent_financial_limit_menu"
+        name="Financial Limit"
+        parent="purchase.menu_purchase_root"
+        /> -->
+    <menuitem
+        id="financial_limit_menu"
+        name="Financial Limit"
+        action="financial_limit_action"
+        parent="purchase.menu_purchase_config"
+        sequence="1"/>
+
+    <!-- committee member -->
+    <record id="committee_member_view_form" model="ir.ui.view">
+        <field name="name">committee.member.view.form</field>
+        <field name="model">committee.member</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group col="4">
+                        <field name="employee_id" />
+                        <field name="job_id"/>
+                        <field name="company_id" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="committee_member_action" model="ir.actions.act_window">
+        <field name="name">Committee Member</field>
+        <field name="res_model">committee.member</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        id="committee_member_menu"
+        name="Committee Member"
+        action="committee_member_action"
+        parent="purchase.menu_purchase_config"
+        sequence="2"/>
+
+</odoo>

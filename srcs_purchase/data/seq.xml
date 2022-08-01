@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="purchase_request_sequence" model="ir.sequence">
+            <field name="name">Purchase Request Sequence</field>
+            <field name="code">purchase.request</field>
+            <field name="prefix">PR/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+        <record id="financial_limit_sequence" model="ir.sequence">
+            <field name="name">Financial Limit Sequence</field>
+            <field name="code">financial.limit</field>
+            <field name="prefix">Financial/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

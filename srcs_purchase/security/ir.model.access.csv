@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_purchase_request,access_access_purchase_request,model_purchase_request,base.group_user,1,1,1,1
+access_purchase_purchase_request_line,access_access_purchase_request_line,model_purchase_request_line,base.group_user,1,1,1,1
+access_financial_limit,access_access_financial_limit,model_financial_limit,base.group_user,1,1,1,1
+access_commitee_member,access_access_committee_member,model_committee_member,base.group_user,1,1,1,1

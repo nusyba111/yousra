@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    style="color:green;"-->
+    <record id="action_report_action_name" model="ir.actions.report">
+        <field name="name">Quotation</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">srcs_purchase.quotation_template</field>
+        <field name="report_file">srcs_purchase.quotation_template</field>
+        <!-- <field name="print_report_name">'%s' % object.name</field> -->
+        <field name="binding_model_id" ref="model_purchase_order"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="quotation_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <table class="table table-bordered" style="border:1px solid black;">
+                            <tr>
+<!--                                style="width:30%;" <span t-esc="o['company_id'].logo"/>-->
+<!--                                <td  rowspan="4"><span t-esc="o['company_id'].logo"/></td>-->
+                                <td style="width:150pt;"  rowspan="4"><br/><img t-att-src="'/srcs_purchase/static/src/img/srcs.jpeg'" style="height:100pt;" width="200"/></td>
+                                <td class="text-center" rowspan="2"> Supply Chain Quality Procedure</td>
+                                <td>Page</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                               <td>Doc.No</td>
+                               <td>SRCS-QP-PR-05</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" rowspan="2">PROCUREMENT PROCEDURE</td>
+                                <td>Rev</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Date</td>
+                                <td class="text-center" colspan="1"><span t-esc="o['date_order']"/></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" colspan="4">Request For Quotation(RFQ)/طلب عروض الاسعار </td>
+                            </tr>
+                        </table>
+                        <table class="table table-condensed table-bordered" border="2">
+                         <tbody>
+                             <tr>
+                          <td rowspan="2" class="text-center">To الجهة</td>
+<!--                          <td rowspan="2" class="text-center"><span t-esc="o['purchase_request_id'].requester_id.name"/></td>-->
+                          <td rowspan="2" class="text-center"><span t-esc="o['partner_id'].name"/></td>
+                          <td class="text-center">From</td>
+                             <td class="text-center"><span t-esc="o['company_id'].name"/></td>
+                               <td class="text-center">Date</td>
+                             <td class="text-center"><span t-esc="o['arrival_date']"/></td>
+                             </tr>
+                             <tr>
+                                 <td class="text-center">Mobile رقم التلفون</td>
+                             <td class="text-center"><span t-esc="o['company_id'].phone"/></td>
+                               <td class="text-center">RFO number رقم طالب العرض</td>
+                             <td class="text-center"><span t-esc="o['name']"/></td>
+                             </tr>
+                             <tr>
+                            <td class="text-center">Fax الفاكس</td>
+                             <td class="text-center"><span t-esc="o['partner_id'].fax"/></td>
+                               <td class="text-center">Email</td>
+                             <td class="text-center"><span t-esc="o['company_id'].email"/></td>
+                             <td class="text-center">Requisition number رقم الطلب</td>
+                             <td class="text-center"></td>
+                             </tr>
+                                        <tr>
+                            <td class="text-center">att</td>
+                             <td class="text-center"></td>
+                               <td class="text-center">Land line التلفون الثابت</td>
+                             <td class="text-center"><span t-esc="o['company_id'].mobile"/></td>
+                             <td class="text-center"></td>
+                             <td class="text-center"></td>
+                                            </tr>
+                             <tr>
+                             <td class="text-center">Email اﻹيميل</td>
+                             <td class="text-center"><span t-esc="o['partner_id'].email"/></td>
+                             <td class="text-center">fax رقم الفاكس</td>
+                             <td class="text-center"><span t-esc="o['company_id'].fax"/></td>
+                             <td class="text-center"></td>
+                             <td class="text-center"></td>
+                             </tr>
+                         </tbody>
+                    </table>
+                        <t t-set="i" t-value="1" />
+                         <table class="table table-condensed table-bordered" border="2" dir="ltr">
+                    <thead style="background-color:#33475b">
+                            <th class="text-left;font-size:45px">Number الرقم</th>
+                            <th class="text-left;font-size:45px">QTY  الكمية </th>
+                            <th class="text-left;font-size:45px"> Unit of Measurement Uom وحدات القياس</th>
+                            <th class="text-left;font-size:45px">Description  وصف البيان</th>
+                            <th class="text-left;font-size:45px">Manufacture المصنع </th>
+                            <th class="text-left;font-size:45px">Currency  العملة</th>
+                            <th class="text-left;font-size:45px">Unit Price سعر الوحدة</th>
+                            <th class="text-left;font-size:45px">Total Price السعر الكلي</th>
+                    </thead>
+                    <tbody>
+                              <t t-foreach="o.order_line" t-as="line">
+                                     <tr>
+                                 <td><span t-esc="i"/><t t-set="i" t-value="i+1"/> </td>
+                                <td class="text-center"><span t-esc="line['product_qty']"/></td>
+                                <td class="text-center"><span t-esc="line['product_uom'].name"/></td>
+                                <td class="text-center"><span t-esc="line['name']"/></td>
+                                 <td class="text-center"></td>
+                                 <td class="text-center"><span t-esc="line['currency_id'].name"/></td>
+                                 <td class="text-center"><span t-esc="line['price_unit']"/></td>
+                                 <td class="text-center"><span t-esc="line['price_subtotal']"/></td>
+                                </tr> </t>
+                    </tbody>
+                    </table>
+                        <table  class="table table-bordered" style="border:1px solid black;">
+                                        <tbody>
+                                     <tr>
+                                 <td class="text-left">Delivery Location مكان التسليم</td>
+                                 <td class="text-left"><span t-esc="o['picking_type_id'].warehouse_id.partner_id.name"/></td>
+                                     </tr> <tr>
+                                 <td class="text-left">Payment Terms شروط البيع</td>
+                                 <td class="text-left"><span t-esc="o['payment_term_id'].name"/></td>
+                                </tr>
+                                            <tr>
+                                 <td class="text-left">Delivery Date تاريخ التسليم</td>
+                                 <td class="text-left"><span t-esc="o['date_planned']"/></td>
+                                     </tr>
+                                            <tr>
+                                 <td class="text-left">Validity  مدة صلاحية الفاتورة</td>
+                                 <td class="text-left"><span t-esc="o['date_of_receipt']"/></td>
+                                     </tr> <tr>
+                                 <td class="text-left">Bid Closing Date انهاء العرض</td>
+                                 <td class="text-left"><span t-esc="o['requisition_id'].date_end"/></td>
+                                </tr>
+                                            <tr>
+                                 <td class="text-left">Vat 17% القيمة المضافه</td>
+                                 <td class="text-left"><span t-esc="o['tax_totals_json']"/></td>
+                                </tr>
+                    </tbody>
+                    </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
+
+
+
